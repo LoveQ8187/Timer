@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by chenghao on 2017/4/6.
@@ -29,12 +30,37 @@ public class Timer extends View implements View.OnTouchListener{
     private Paint mPaint;
     private Paint mRedLinePaint;
     private Paint mFill;
-    private Paint timePaint;
+    private TextView timeText;
 
     private double redPointDegree=0;//记录红点的角度
     private int lastLineNum=0;//记录红点上一次的刻度
     private int lineNum=0;//记录红点当前刻度
     private boolean isRedPointSelected=false;//判断红点被点击
+
+    public int getmHour() {
+        return mHour;
+    }
+
+    public void setmHour(int mHour) {
+        this.mHour = mHour;
+    }
+
+    public int getmMinute() {
+        return mMinute;
+    }
+
+    public void setmMinute(int mMinute) {
+        this.mMinute = mMinute;
+    }
+
+    public int getmSecend() {
+        return mSecend;
+    }
+
+    public void setmSecend(int mSecend) {
+        this.mSecend = mSecend;
+    }
+
     private int mHour=0;
     private int mMinute=0;
     private int mSecend=0;
@@ -94,6 +120,7 @@ public class Timer extends View implements View.OnTouchListener{
         drawLines(canvas);
         drawNum(canvas);
         drawRedPoint(canvas);
+        setTime();
     }
 
     private void drawLines(Canvas canvas){
@@ -124,7 +151,7 @@ public class Timer extends View implements View.OnTouchListener{
         int nX=mX-15;
         int nY=mY - mRadius-30;
         mPaint.setTextSize(NUMBER_SIZE);
-        canvas.drawText(String.valueOf(mHour)+":"+String.valueOf(mMinute),nX,nY,mPaint);
+        canvas.drawText(String.valueOf(mHour)+"h",nX,nY,mPaint);
         for(int i=1;i<=3;i++){
             if(i==1){
                 nY=mY;
@@ -269,4 +296,29 @@ public class Timer extends View implements View.OnTouchListener{
     public void setRedPointDegree(double redPointDegree) {
         this.redPointDegree = redPointDegree;
     }
+
+    public void setTime(){
+        String time="";
+        if (mHour==0){
+            time+=ZERO+ZERO;
+        }else if (mHour<10){
+            time+=ZERO+String.valueOf(mHour);
+        }else {
+            time+=String.valueOf(mHour);
+        }
+        time+=":";
+        if (mMinute==0){
+            time+=ZERO+ZERO;
+        }else if (mMinute<10){
+            time+=ZERO+String.valueOf(mMinute);
+        }else {
+            time+=String.valueOf(mMinute);
+        }
+        time+=":00";
+        timeText.setText(time);
+    }
+    public void setTimeText(TextView timeText) {
+        this.timeText = timeText;
+    }
+
 }
